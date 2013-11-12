@@ -15,10 +15,6 @@
         cv.height = h;
         ctx = cv.getContext('2d');
 
-        var randX = ~~(Math.random() * w);
-        var randY = ~~(Math.random() * h);
-        var dotPos = convertPoint(randX, randY);
-
         var dragging = false;
         var startPos = vec2(0);
         var endPos   = vec2(0);
@@ -27,20 +23,19 @@
         var scene = new Scene();
         var renderer = new Renderer(cv);
 
+        var originPos = vec2(0.0);
+        var origin = new Point(originPos);
+        scene.add(origin);
+
         var mass = 100;
-        var v1 = vec2(  0.0,   0.0);
+        var v1 = vec2(  5.0,   10.0);
         var v2 = vec2(-150.0, 120.5);
-        var v3 = vec2( 140.0, 235.5);
+        var v3 = vec2( 140.0, 205.5);
         var triangle = new Triangle(v1, v2, v3, {
             color: 'red',
             mass: 100
         });
         scene.add(triangle);
-
-        var point1 = new Point(dotPos, {
-            color: '#ccc'
-        });
-        scene.add(point1);
 
         var baseLine1 = new Line(vec2(-hw, 0), vec2(hw, 0), {
             color: '#aaa'
@@ -94,7 +89,10 @@
                     point.setColor(color);
                 });
 
-                var detectVec = detectPointOnLine(startPos, endPos, dotPos);
+                //引かれたラインと原点との最近接点を検出
+                var detectVec = detectPointOnLine(startPos, endPos, originPos);
+
+                //検出された点を作成
                 var point = new Point(detectVec, {
                     radius: 3,
                     color: '#fff'
@@ -102,17 +100,41 @@
                 scene.add(point);
                 points.push(point);
 
+                //引かれたラインを残す用
                 var line1 = new Line(startPos, endPos, {
                     color: '#fff'
                 });
                 scene.add(line1);
                 lines.push(line1);
 
-                var line2 = new Line(dotPos, detectVec, {
+                //検出した点を通るライン
+                var dx = vec2.sub(detectVec, originPos);
+                var delta = dx.y / dx.x;
+                var ey = -hw * delta;
+                var e0 = vec2(-hw, ey);
+                var e1 = vec2(hw, -ey)
+
+                //var line2 = new Line(originPos, detectVec, {
+                var line2 = new Line(e0, e1, {
                     color: '#1191fa'
                 });
                 scene.add(line2);
                 lines.push(line2);
+
+                //内積を取るようのベクトルを算出
+                var _detectVec = vec2(detectVec);
+                vec2.normalize(_detectVec);
+
+                for (var i = 0, l = triangle.vertices.length; i < l; i++) {
+                    var dot = vec2.dot(_detectVec, triangle.vertices[i]);
+                    var vec = vec2.multiplyScalar(_detectVec, dot);
+                    var dp = new Point(vec, {
+                        color: 'green'
+                    });
+                    scene.add(dp);
+                    points.push(dp);
+                }
+
             }, false);
         }
 
