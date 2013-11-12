@@ -27,6 +27,16 @@
         var scene = new Scene();
         var renderer = new Renderer(cv);
 
+        var mass = 100;
+        var v1 = vec2(  0.0,   0.0);
+        var v2 = vec2(-150.0, 120.5);
+        var v3 = vec2( 140.0, 235.5);
+        var triangle = new Triangle(v1, v2, v3, {
+            color: 'red',
+            mass: 100
+        });
+        scene.add(triangle);
+
         var point1 = new Point(dotPos, {
             color: '#ccc'
         });
