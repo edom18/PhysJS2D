@@ -34,6 +34,7 @@
         var randX = ~~(Math.random() * w);
         var randY = ~~(Math.random() * h);
         var dotPos = convertPoint(randX, randY);
+        var dotArr = [dotPos];
 
         var dragging = false;
         var startPos = vec2(0);
@@ -43,28 +44,18 @@
         var scene = new Scene();
         var renderer = new Renderer(cv);
 
-        var point1 = new Point(dotPos, {
-            color: '#ccc'
-        });
+        var point1 = new Point(dotPos.x, dotPos.y);
+
         scene.add(point1);
-
-        var baseLine1 = new Line(vec2(-hw, 0), vec2(hw, 0), {
-            color: '#aaa'
-        });
-        scene.add(baseLine1);
-
-        var baseLine2 = new Line(vec2(0, hh), vec2(0, -hh), {
-            color: '#aaa'
-        });
-        scene.add(baseLine2);
-
         
         //レンダリングループ
         (function loop() {
             requestAnimationFrame(loop);
             ctx.clearRect(0, 0, w, h);
+            drawBase();
+            //drawDot();
             drawLine(startPos, currentPos);
-            renderer.render(scene);
+            //renderer.render(scene);
         }());
 
 
@@ -84,7 +75,6 @@
                 currentPos = convertPoint(e.pageX, e.pageY);
             }, false);
 
-            var lines = [], points = [];
             document.addEventListener('mouseup', function (e) {
                 if (!dragging) {
                     return;
@@ -92,40 +82,16 @@
                 dragging = false;
                 endPos = convertPoint(e.pageX, e.pageY);
 
-                var color = '#666';
-                lines.forEach(function (line) {
-                    line.setColor(color);
-                });
-                points.forEach(function (point) {
-                    point.setColor(color);
-                });
-
-                var detectVec = detectPointOnLine(startPos, endPos, dotPos);
-                var point = new Point(detectVec, {
-                    radius: 3,
-                    color: '#fff'
-                });
-                scene.add(point);
-                points.push(point);
-
-                var line1 = new Line(startPos, endPos, {
-                    color: '#fff'
-                });
-                scene.add(line1);
-                lines.push(line1);
-
-                var line2 = new Line(dotPos, detectVec, {
-                    color: '#1191fa'
-                });
-                scene.add(line2);
-                lines.push(line2);
+                var point = detectPointOnLine(startPos, endPos, dotPos);
+                dotArr.length = 1;
+                dotArr.push(point);
             }, false);
         }
 
         //ドラッグ中のラインを引く
         function drawLine(start, end) {
             ctx.save();
-            ctx.strokeStyle = 'fa1131';
+            ctx.strokeStyle = 'red';
             ctx.beginPath();
             ctx.translate(hw, hh);
             ctx.moveTo(start.x, -start.y);
@@ -135,6 +101,36 @@
             ctx.restore();
         }
         
+        //直交座標用のラインを引く
+        function drawBase() {
+            ctx.save();
+            ctx.strokeStyle = '#999';
+            ctx.beginPath();
+            ctx.moveTo(0, hh);
+            ctx.lineTo(w, hh);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(hw, 0);
+            ctx.lineTo(hw, h);
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        //対象点を描く
+        function drawDot() {
+            ctx.save();
+            ctx.beginPath();
+            ctx.translate(hw, hh);
+
+            for (var i = 0, l = dotArr.length; i < l; i++) {
+                ctx.arc(dotArr[i].x, -dotArr[i].y, 3, Math.PI * 2, false);
+            }
+            ctx.fill();
+            ctx.closePath();
+            ctx.restore();
+        }
+
         /**
          * 線分と点との最短点を検出する
          * @param {vec2} e0 端点0
@@ -174,5 +170,18 @@
             //垂線の足の位置ベクトルを返す
             return vec2(x, y);
         }
+
+        //var x0 = 10;
+        //var y0 = 10;
+        //var x1 = 100;
+        //var y1 = 50;
+        //var px = 30;
+        //var py = 70;
+
+        //var e0 = vec2(x0, y0);
+        //var e1 = vec2(x1, y1);
+        //var p  = vec2(px, py);
+
+        //var result2 = detectPointOnLine(e0, e1, p);
     }, false);
 }());
