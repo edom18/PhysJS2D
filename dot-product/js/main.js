@@ -9,22 +9,6 @@
 
     var cv, ctx;
 
-    /**
-     * 座標を直交座標に直す
-     *
-     * @param {number} x
-     * @param {number} y
-     */
-    function convertPoint(x, y) {
-
-        var ret = vec2(0.0);
-
-        ret.x = x - w / 2;
-        ret.y = h - (h / 2 + y);
-
-        return ret;
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
         cv = document.querySelector('#cv');
         cv.width  = w;
