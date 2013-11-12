@@ -1,0 +1,3 @@
+[submodule "MathJS"]
+	path = MathJS
+	url = https://github.com/edom18/MathJS.git
