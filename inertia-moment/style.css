@@ -52,8 +52,15 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 .form-control {
     position: absolute;
-    left: 0;
-    bottom: 0;
-    display: inline-block;
-    width: 10em;
+    left: 10px;
+    bottom: 10px;
+    color: #fff;
+    background-color: transparent;
+    border: none;
+}
+.form-control > input {
+    width: 3em;
+    background: none;
+    color: #fff;
+    text-align: center;
 }

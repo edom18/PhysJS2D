@@ -49,7 +49,8 @@
         //三角形をひとつ作る
         var triangle = new Triangle(v1, v2, v3, {
             mass: mass,
-            color: '#c00'
+            color: '#c00',
+            useCenter: true
         });
 
         scene.add(triangle);
@@ -108,7 +109,7 @@
                 var t = vec2.cross(r, f);
                 var a = t / triangle.inertia;
 
-                triangle.angularAcc -= a;
+                triangle.angularAcc += a;
             }, false);
         }
 
