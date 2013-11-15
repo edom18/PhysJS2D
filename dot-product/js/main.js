@@ -20,29 +20,29 @@
         var endPos   = vec2(0);
         var currentPos = vec2(0);
 
-        var scene = new Scene();
-        var renderer = new Renderer(cv);
+        var scene = new Phys2D.Scene();
+        var renderer = new Phys2D.Renderer(cv);
 
         var originPos = vec2(0.0);
-        var origin = new Point(originPos);
+        var origin = new Phys2D.Point(originPos);
         scene.add(origin);
 
         var mass = 100;
         var v1 = vec2(  5.0,   10.0);
         var v2 = vec2(-150.0, 120.5);
         var v3 = vec2( 140.0, 205.5);
-        var triangle = new Triangle(v1, v2, v3, {
+        var triangle = new Phys2D.Triangle(v1, v2, v3, {
             color: 'red',
             mass: 100
         });
         scene.add(triangle);
 
-        var baseLine1 = new Line(vec2(-hw, 0), vec2(hw, 0), {
+        var baseLine1 = new Phys2D.Line(vec2(-hw, 0), vec2(hw, 0), {
             color: '#aaa'
         });
         scene.add(baseLine1);
 
-        var baseLine2 = new Line(vec2(0, hh), vec2(0, -hh), {
+        var baseLine2 = new Phys2D.Line(vec2(0, hh), vec2(0, -hh), {
             color: '#aaa'
         });
         scene.add(baseLine2);
@@ -61,7 +61,7 @@
         {
             cv.addEventListener('mousedown', function (e) {
                 dragging = true;
-                startPos = convertPoint(e.pageX, e.pageY);
+                startPos = Phys2D.convertPoint(e.pageX, e.pageY);
                 currentPos = vec2(startPos);
             }, false);
 
@@ -70,7 +70,7 @@
                     return;
                 }
 
-                currentPos = convertPoint(e.pageX, e.pageY);
+                currentPos = Phys2D.convertPoint(e.pageX, e.pageY);
             }, false);
 
             var lines = [], points = [];
@@ -79,7 +79,7 @@
                     return;
                 }
                 dragging = false;
-                endPos = convertPoint(e.pageX, e.pageY);
+                endPos = Phys2D.convertPoint(e.pageX, e.pageY);
 
                 var color = '#666';
                 lines.forEach(function (line) {
@@ -90,10 +90,10 @@
                 });
 
                 //引かれたラインと原点との最近接点を検出
-                var detectVec = detectPointOnLine(startPos, endPos, originPos);
+                var detectVec = Phys2D.detectPointOnLine(startPos, endPos, originPos);
 
                 //検出された点を作成
-                var point = new Point(detectVec, {
+                var point = new Phys2D.Point(detectVec, {
                     radius: 3,
                     color: '#fff'
                 });
@@ -101,7 +101,7 @@
                 points.push(point);
 
                 //引かれたラインを残す用
-                var line1 = new Line(startPos, endPos, {
+                var line1 = new Phys2D.Line(startPos, endPos, {
                     color: '#fff'
                 });
                 scene.add(line1);
@@ -115,7 +115,7 @@
                 var e1 = vec2(hw, -ey)
 
                 //var line2 = new Line(originPos, detectVec, {
-                var line2 = new Line(e0, e1, {
+                var line2 = new Phys2D.Line(e0, e1, {
                     color: '#1191fa'
                 });
                 scene.add(line2);
@@ -128,7 +128,7 @@
                 for (var i = 0, l = triangle.vertices.length; i < l; i++) {
                     var dot = vec2.dot(_detectVec, triangle.vertices[i]);
                     var vec = vec2.multiplyScalar(_detectVec, dot);
-                    var dp = new Point(vec, {
+                    var dp = new Phys2D.Point(vec, {
                         color: 'green'
                     });
                     scene.add(dp);
