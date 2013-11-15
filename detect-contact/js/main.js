@@ -85,9 +85,11 @@
 
             var lines = [], points = [];
             document.addEventListener('mouseup', function (e) {
+
                 if (!dragging) {
                     return;
                 }
+
                 dragging = false;
                 endPos = Phys2D.convertPoint(e.pageX, e.pageY);
 
@@ -124,7 +126,6 @@
                 var e0 = vec2(-hw, ey);
                 var e1 = vec2(hw, -ey)
 
-                //var line2 = new Line(originPos, detectVec, {
                 var line2 = new Phys2D.Line(e0, e1, {
                     color: '#1191fa'
                 });
@@ -135,8 +136,9 @@
                 var _detectVec = vec2(detectVec);
                 vec2.normalize(_detectVec);
 
-                for (var i = 0, l = triangle1.vertices.length; i < l; i++) {
-                    var dot = vec2.dot(_detectVec, triangle1.vertices[i]);
+                var vertices = triangle1.getVertices();
+                for (var i = 0, l = vertices.length; i < l; i++) {
+                    var dot = vec2.dot(_detectVec, vertices[i]);
                     var vec = vec2.multiplyScalar(_detectVec, dot);
                     var dp = new Phys2D.Point(vec, {
                         color: 'green'
