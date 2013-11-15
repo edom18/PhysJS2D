@@ -34,9 +34,23 @@
         var scene = new Scene();
         var renderer = new Renderer(cv);
 
-        var v1 = vec2(205, -50);
-        var v2 = vec2(130, 150);
-        var v3 = vec2(-130, -120);
+        var x, y;
+
+        x = Math.random() * w;
+        y = Math.random() * h;
+        var v1 = convertPoint(x, y);
+
+        x = Math.random() * w;
+        y = Math.random() * h;
+        var v2 = convertPoint(x, y);
+
+        x = Math.random() * w;
+        y = Math.random() * h;
+        var v3 = convertPoint(x, y);
+
+        //var v1 = vec2(205, -50);
+        //var v2 = vec2(130, 150);
+        //var v3 = vec2(-130, -120);
 
         //三角形をひとつ作る
         var triangle = new Triangle(v1, v2, v3, {
@@ -71,29 +85,37 @@
                 var v0 = triangle.vertices[0];
                 var v1 = triangle.vertices[1];
                 var v2 = triangle.vertices[2];
-
                 var pos = convertPoint(e.pageX, e.pageY);
 
                 var edge0 = vec2.sub(v1, v0);
+                var edge1 = vec2.sub(v2, v1);
+                var edge2 = vec2.sub(v0, v2);
+
+                var ce0 = vec2.sub(v1, v0);
+                var ce1 = vec2.sub(v2, v0);
+                var CCW = 1;
+
+                if (vec2.cross(ce0, ce1) < 0) {
+                    CCW = -1;
+                }
+
                 var cp0 = vec2.sub(pos, v0);
                 
-                if (vec2.cross(edge0, cp0) < 0) {
+                if (vec2.cross(edge0, cp0) * CCW < 0) {
                     triangle.setColor('#c00');
                     return false;
                 }
 
-                var edge1 = vec2.sub(v2, v1);
                 var cp1 = vec2.sub(pos, v1);
                 
-                if (vec2.cross(edge1, cp1) < 0) {
+                if (vec2.cross(edge1, cp1) * CCW < 0) {
                     triangle.setColor('#c00');
                     return false;
                 }
 
-                var edge2 = vec2.sub(v0, v2);
                 var cp2 = vec2.sub(pos, v2);
                 
-                if (vec2.cross(edge2, cp2) < 0) {
+                if (vec2.cross(edge2, cp2) * CCW < 0) {
                     triangle.setColor('#c00');
                     return false;
                 }
