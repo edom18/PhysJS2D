@@ -123,7 +123,7 @@
 
                 //内積を取るようのベクトルを算出
                 var _detectVec = vec2(detectVec);
-                vec2.normalize(_detectVec);
+                _detectVec = vec2.normalize(_detectVec);
 
                 for (var i = 0, l = triangle.vertices.length; i < l; i++) {
                     var dot = vec2.dot(_detectVec, triangle.vertices[i]);

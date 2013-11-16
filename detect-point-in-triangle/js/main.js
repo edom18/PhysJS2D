@@ -31,8 +31,8 @@
         cv.height = h;
         ctx = cv.getContext('2d');
 
-        var scene = new Scene();
-        var renderer = new Renderer(cv);
+        var scene = new Phys2D.Scene();
+        var renderer = new Phys2D.Renderer(cv);
 
         var x, y;
 
@@ -53,19 +53,19 @@
         //var v3 = vec2(-130, -120);
 
         //三角形をひとつ作る
-        var triangle = new Triangle(v1, v2, v3, {
+        var triangle = new Phys2D.Triangle(v1, v2, v3, {
             mass: 5,
             color: '#c00'
         });
 
         scene.add(triangle);
 
-        var baseLine1 = new Line(vec2(-hw, 0), vec2(hw, 0), {
+        var baseLine1 = new Phys2D.Line(vec2(-hw, 0), vec2(hw, 0), {
             color: '#aaa'
         });
         scene.add(baseLine1);
 
-        var baseLine2 = new Line(vec2(0, hh), vec2(0, -hh), {
+        var baseLine2 = new Phys2D.Line(vec2(0, hh), vec2(0, -hh), {
             color: '#aaa'
         });
         scene.add(baseLine2);

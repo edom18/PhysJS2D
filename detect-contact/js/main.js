@@ -27,24 +27,25 @@
         var origin = new Phys2D.Point(originPos);
         scene.add(origin);
 
-        var v1 = vec2(  5.0,   10.0);
-        var v2 = vec2(-150.0, 120.5);
-        var v3 = vec2( 140.0, 205.5);
+        var v1 = vec2(360.0, 150.0);
+        var v2 = vec2(105.0, 220.5);
+        var v3 = vec2(295.0, 305.5);
 
-        var v4 = vec2(-150.0, 100.5);
-        var v5 = vec2( 140.0, 155.5);
-        var v6 = vec2(  15.0,  30.0);
+        var v4 = vec2(  5.0, 100.5);
+        var v5 = vec2(295.0, 155.5);
+        var v6 = vec2(170.0,  30.0);
 
         var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
             color: 'red',
             mass: 5
         });
-        triangle1.translate(vec2(100, 100));
+        //triangle1.translate(vec2(100, 100));
         scene.add(triangle1);
 
         var triangle2 = new Phys2D.Triangle(v4, v5, v6, {
             color: 'blue',
-            mass: 5
+            mass: 5,
+            useCenter: true
         });
         scene.add(triangle2);
 
@@ -66,22 +67,122 @@
             renderer.render(scene);
         }());
 
+        var Contact = Class.extend({
+            init: function (objA, objB) {
+                this._objA = objA;
+                this._objB = objB;
 
-        //ドラッグでラインを引く処理。
-        {
-            cv.addEventListener('mousedown', function (e) {
-                dragging = true;
-                startPos = Phys2D.convertPoint(e.pageX, e.pageY);
-                currentPos = vec2(startPos);
-            }, false);
+                this._detect();
+            },
+            _support: function (supportVec, vertices) {
 
-            document.addEventListener('mousemove', function (e) {
-                if (!dragging) {
-                    return;
+                var dot = -Number.MAX_VALUE;
+                var ful = null;
+
+                for (var i = 0, l = vertices.length; i < l; i++) {
+                    var temp = vec2.dot(supportVec, vertices[i]);
+                    if (dot < temp) {
+                        dot = temp;
+                        ful = vertices[i];
+                    }
                 }
 
-                currentPos = Phys2D.convertPoint(e.pageX, e.pageY);
-            }, false);
+                return vec2(ful);
+            },
+            _detect: function () {
+
+                var fuls = [];
+                var objAVert = this._objA.getVertices();
+                var objBVert = this._objB.getVertices();
+                var supportA, supportB,
+                    fulA, fulB;
+
+                //objAの中心点から原点のベクトルによる支点を求める
+                supportA = vec2.sub(originPos, this._objA.getCenter());
+
+                //中心から原点へのベクトルを視覚化
+                var line = new Phys2D.Line(originPos, this._objA.getCenter(), {
+                    color: '#fff'
+                });
+                scene.add(line);
+
+                //ベクトルを正規化
+                supportA = vec2.normalize(supportA);
+
+                //objB用に反転したベクトルを生成
+                supportB = vec2.minus(supportA);
+
+                //objAの支点を求める
+                fulA = this._support(supportA, objAVert);
+
+                var pointA = new Phys2D.Point(vec2(fulA), {
+                    color: 'green'
+                });
+                scene.add(pointA);
+
+                //objBの支点を求める
+                fulB = this._support(supportB, objBVert);
+
+                var pointB = new Phys2D.Point(vec2(fulB), {
+                    color: 'green'
+                });
+                scene.add(pointB);
+
+                //求めたA,Bのサポート写像を合成し、ミンコフスキ差としての支点を求める
+                var ful = vec2.sub(fulA, fulB);
+                fuls.push(ful);
+
+                var pointC = new Phys2D.Point(vec2(ful), {
+                   color: 'green'
+                });
+                scene.add(pointC);
+
+                // //求まった点と原点を結んだベクトルのサポート写像を求める
+                // supportA = vec2.sub(originPos, ful);
+                // vec2.normalize(supportA);
+                // supportB = vec2.minus(supportA);
+
+                // fulA = this._support(supportA, objAVert);
+                // fulB = this._support(supportB, objBVert);
+                // ful = vec2.sub(fulA, fulB);
+                // fuls.push(ful);
+
+                // var pointD = new Phys2D.Point(vec2(ful), {
+                //    color: 'green'
+                // });
+                // scene.add(pointD);
+
+                // var nearPoint = Phys2D.detectPointOnLine(fuls[1], fuls[0], originPos);
+                // var pointE = new Phys2D.Point(vec2(nearPoint), {
+                //     color: 'green'
+                // });
+                // scene.add(pointE);
+
+                // //求まった点と原点を結んだベクトルのサポート写像を求める
+                // supportA = vec2.sub(originPos, nearPoint);
+                // vec2.normalize(supportA);
+                // supportB = vec2.minus(supportA);
+
+                // fulA = this._support(supportA, objAVert);
+                // fulB = this._support(supportB, objBVert);
+                // ful = vec2.sub(fulA, fulB);
+                // fuls.push(ful);
+
+                // //3点求まったので三角形を作る
+                // var tri = new Phys2D.Triangle(fuls[0], fuls[1], fuls[2], {
+                //     color: 'green'
+                // });
+
+                // scene.add(tri);
+            }
+        });
+
+
+        //衝突判定
+        {
+            cv.addEventListener('click', function (e) {
+                var contact = new Contact(triangle1, triangle2);
+            });
 
             var lines = [], points = [];
             document.addEventListener('mouseup', function (e) {
@@ -134,7 +235,7 @@
 
                 //内積を取るようのベクトルを算出
                 var _detectVec = vec2(detectVec);
-                vec2.normalize(_detectVec);
+                _detectVec = vec2.normalize(_detectVec);
 
                 var vertices = triangle1.getVertices();
                 for (var i = 0, l = vertices.length; i < l; i++) {
