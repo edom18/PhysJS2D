@@ -40,20 +40,20 @@
         var endPos   = vec2(0);
         var currentPos = vec2(0);
 
-        var scene = new Scene();
-        var renderer = new Renderer(cv);
+        var scene = new Phys2D.Scene();
+        var renderer = new Phys2D.Renderer(cv);
 
-        var point1 = new Point(dotPos, {
+        var point1 = new Phys2D.Point(dotPos, {
             color: '#ccc'
         });
         scene.add(point1);
 
-        var baseLine1 = new Line(vec2(-hw, 0), vec2(hw, 0), {
+        var baseLine1 = new Phys2D.Line(vec2(-hw, 0), vec2(hw, 0), {
             color: '#aaa'
         });
         scene.add(baseLine1);
 
-        var baseLine2 = new Line(vec2(0, hh), vec2(0, -hh), {
+        var baseLine2 = new Phys2D.Line(vec2(0, hh), vec2(0, -hh), {
             color: '#aaa'
         });
         scene.add(baseLine2);
@@ -100,21 +100,21 @@
                     point.setColor(color);
                 });
 
-                var detectVec = detectPointOnLine(startPos, endPos, dotPos);
-                var point = new Point(detectVec, {
+                var detectVec = Phys2D.detectPointOnLine(startPos, endPos, dotPos);
+                var point = new Phys2D.Point(detectVec, {
                     radius: 3,
                     color: '#fff'
                 });
                 scene.add(point);
                 points.push(point);
 
-                var line1 = new Line(startPos, endPos, {
+                var line1 = new Phys2D.Line(startPos, endPos, {
                     color: '#fff'
                 });
                 scene.add(line1);
                 lines.push(line1);
 
-                var line2 = new Line(dotPos, detectVec, {
+                var line2 = new Phys2D.Line(dotPos, detectVec, {
                     color: '#1191fa'
                 });
                 scene.add(line2);
@@ -133,46 +133,6 @@
             ctx.closePath();
             ctx.stroke();
             ctx.restore();
-        }
-        
-        /**
-         * 線分と点との最短点を検出する
-         * @param {vec2} e0 端点0
-         * @param {vec2} e1 端点1
-         * @param {vec2} p  判別したい点
-         * @return {vec2} 検出した最短点の位置
-         */
-        function detectPointOnLine(e0, e1, p) {
-
-            //端点0〜1のベクトル
-            var vec = vec2.sub(e1, e0);
-
-            //上記で求めたベクトルの長さ
-            var a = vec2.lengthSqr(vec);
-
-            //端点0から点までのベクトル
-            var e0p = vec2.sub(e0, p);
-
-            //aが0の場合は、e0 == e1、つまり「点」になるので
-            //点と点の距離、つまり端点e0が最短点
-            if (a === 0) {
-                return vec2(e0);
-            }
-
-            var b = vec.x * (e0.x - p.x) + vec.y * (e0.y - p.y);
-
-            //a : bの係数を計算
-            var t = -(b / a);
-
-            //0.0〜1.0にクランプする
-            t = Math.min(1.0, Math.max(t, 0.0));
-
-            //求まった係数 t を元に、垂線の足の位置を計算
-            var x = t * vec.x + e0.x;
-            var y = t * vec.y + e0.y;
-
-            //垂線の足の位置ベクトルを返す
-            return vec2(x, y);
         }
     }, false);
 }());
