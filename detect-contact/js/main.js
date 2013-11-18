@@ -19,9 +19,9 @@
         var scene = new Phys2D.Scene();
         var renderer = new Phys2D.Renderer(cv);
 
-        var v1 = vec2(360.0, 150.0);
-        var v2 = vec2(105.0, 220.5);
-        var v3 = vec2(295.0, 305.5);
+        var v1 = vec2(-200.0, 210.5);
+        var v2 = vec2( 115.0, 310.0);
+        var v3 = vec2( 150.0, 115.5);
 
         var v4 = vec2(  5.0, 100.5);
         var v5 = vec2(295.0, 155.5);
@@ -31,7 +31,8 @@
             color: 'red',
             mass: 5
         });
-        triangle1.translate(vec2(-350, -350));
+        //triangle1.translate(vec2(70, -300));
+        triangle1.translate(vec2(3, -121));
         scene.add(triangle1);
 
         var triangle2 = new Phys2D.Triangle(v4, v5, v6, {
@@ -72,6 +73,19 @@
 
             document.addEventListener('mouseup', function (e) {
                 dragging = false;
+
+                // console.log(triangle1.position);
+
+                // var contact = new Phys2D.Contact(triangle1, triangle2, {
+                //     renderer: renderer,
+                //     scene: scene,
+                //     contact: function () {
+                //         triangle1.setColor('gray');
+                //     },
+                //     nocontact: function () {
+                //         triangle1.setColor('red');
+                //     }
+                // });
             }, false)
 
             document.addEventListener('mousemove', function (e) {
@@ -83,6 +97,8 @@
 
                 triangle1.translate(vec2(prevX, -prevY));
                 var contact = new Phys2D.Contact(triangle1, triangle2, {
+                    renderer: renderer,
+                    scene: scene,
                     contact: function () {
                         triangle1.setColor('gray');
                     },
