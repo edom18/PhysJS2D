@@ -31,7 +31,8 @@
             color: 'red',
             mass: 5
         });
-        triangle1.translate(vec2(70, -300));
+        //triangle1.translate(vec2(70, -300));
+        triangle1.translate(vec2(3, -121));
         scene.add(triangle1);
 
         var triangle2 = new Phys2D.Triangle(v4, v5, v6, {
@@ -72,6 +73,8 @@
 
             document.addEventListener('mouseup', function (e) {
                 dragging = false;
+
+                // console.log(triangle1.position);
 
                 // var contact = new Phys2D.Contact(triangle1, triangle2, {
                 //     renderer: renderer,
