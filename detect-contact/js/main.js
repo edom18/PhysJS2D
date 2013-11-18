@@ -31,7 +31,6 @@
             color: 'red',
             mass: 5
         });
-        //triangle1.translate(vec2(70, -300));
         triangle1.translate(vec2(3, -121));
         scene.add(triangle1);
 
