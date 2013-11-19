@@ -19,13 +19,13 @@
         var scene = new Phys2D.Scene();
         var renderer = new Phys2D.Renderer(cv);
 
-        var v1 = vec2(-200.0, 210.5);
-        var v2 = vec2( 115.0, 310.0);
-        var v3 = vec2( 150.0, 115.5);
+        var v1 = vec2(-80.0, 150.5);
+        var v2 = vec2( 65.0,  200.0);
+        var v3 = vec2( 100.0, 125.5);
 
-        var v4 = vec2(  5.0, 100.5);
-        var v5 = vec2(295.0, 155.5);
-        var v6 = vec2(170.0,  30.0);
+        var v4 = vec2(  5.0, 50.5);
+        var v5 = vec2(155.0, 75.5);
+        var v6 = vec2( 80.0, 15.0);
 
         var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
             color: 'red',
@@ -98,11 +98,12 @@
                 var contact = new Phys2D.Contact(triangle1, triangle2, {
                     renderer: renderer,
                     scene: scene,
-                    contact: function () {
-                        triangle1.setColor('gray');
+                    contact: function (depth) {
+                        // triangle1.setColor('gray');
+                        triangle2.translate(depth);
                     },
                     nocontact: function () {
-                        triangle1.setColor('red');
+                        // triangle1.setColor('red');
                     }
                 });
 
