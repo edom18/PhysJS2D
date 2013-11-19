@@ -31,7 +31,7 @@
             color: 'red',
             mass: 5
         });
-        triangle1.translate(vec2(3, -121));
+        triangle1.translate(vec2(3, -61));
         scene.add(triangle1);
 
         var triangle2 = new Phys2D.Triangle(v4, v5, v6, {
