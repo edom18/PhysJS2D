@@ -31,7 +31,8 @@
 
         var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
             angularVelocity: 2,
-            acceleration: vec2(0, -0.02),
+            acceleration: vec2(0, -0.2),
+            // velocity: vec2(0, -1),
             color: 'red',
             mass: 5
         });
