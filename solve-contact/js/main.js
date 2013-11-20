@@ -31,19 +31,18 @@
 
         var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
             angularVelocity: 2,
-            acceleration: vec2(0, -0.2),
+            acceleration: vec2(0, -0.1),
             // velocity: vec2(0, -1),
             color: 'red',
-            mass: 5
+            mass: 1
         });
         triangle1.translate(vec2(0, 300));
         scene.add(triangle1);
 
         var triangle2 = new Phys2D.Triangle(v4, v5, v6, {
-            // angularVelocity: 5,
+            angularVelocity: 0.1,
             color: 'blue',
-            mass: 5,
-            useCenter: true
+            mass: 5
         });
         scene.add(triangle2);
 
