@@ -98,9 +98,9 @@
                 var contact = new Phys2D.Contact(triangle1, triangle2, {
                     renderer: renderer,
                     scene: scene,
-                    contact: function (depth) {
+                    contact: function (cp) {
                         // triangle1.setColor('gray');
-                        triangle2.translate(depth);
+                        triangle2.translate(cp.depthPoint);
                     },
                     nocontact: function () {
                         // triangle1.setColor('red');
