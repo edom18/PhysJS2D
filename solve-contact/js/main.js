@@ -22,28 +22,29 @@
         var renderer = new Phys2D.Renderer(cv);
 
         var v1 = vec2(-100.0, 50.5);
-        var v2 = vec2(  25.0, -50.0);
-        var v3 = vec2( 100.0, 75.5);
+        var v2 = vec2(  0.0, -50.0);
+        var v3 = vec2( 100.0, 50.5);
 
-        var v4 = vec2(  5.0, 50.5);
-        var v5 = vec2(155.0, 75.5);
-        var v6 = vec2( 80.0, 15.0);
+        var v4 = vec2(-1005.0, 50.5);
+        var v5 = vec2(1005.0, 65.5);
+        var v6 = vec2( 80.0, -1005.0);
 
         var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
-            angularVelocity: 2,
-            acceleration: vec2(0, -0.1),
+            angularVelocity: 1,
+            acceleration: vec2(0, -0.3),
             // velocity: vec2(0, -1),
             color: 'red',
-            mass: 1
+            mass: 10
         });
         triangle1.translate(vec2(0, 300));
         scene.add(triangle1);
 
         var triangle2 = new Phys2D.Triangle(v4, v5, v6, {
-            angularVelocity: 0.1,
+            // angularVelocity: 0.1,
             color: 'blue',
-            mass: 5
+            mass: 50000
         });
+        // triangle2.scale(vec2(0.1, 0.1));
         scene.add(triangle2);
 
         var baseLine1 = new Phys2D.Line(vec2(-hw, 0), vec2(hw, 0), {
