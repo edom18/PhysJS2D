@@ -79,7 +79,7 @@
                     renderer: renderer,
                     scene: scene,
                     contact: function (dp, cp) {
-                        debugger;
+                        // debugger;
                         triangle1.setColor('gray');
                     },
                     nocontact: function () {
