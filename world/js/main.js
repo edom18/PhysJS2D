@@ -98,17 +98,6 @@
 
             document.addEventListener('mouseup', function (e) {
                 dragging = false;
-
-                // var contact = new Phys2D.Contact(triangle1, triangle2, {
-                //     renderer: renderer,
-                //     scene: scene,
-                //     contact: function () {
-                //         triangle1.setColor('gray');
-                //     },
-                //     nocontact: function () {
-                //         triangle1.setColor('red');
-                //     }
-                // });
             }, false)
 
             document.addEventListener('mousemove', function (e) {
@@ -119,17 +108,6 @@
                 prevY = e.pageY - prevY;
 
                 triangle1.translate(vec2(prevX, -prevY));
-                // var contact = new Phys2D.Contact(triangle1, triangle2, {
-                //     renderer: renderer,
-                //     scene: scene,
-                //     contact: function (cp) {
-                //         // triangle1.setColor('gray');
-                //         triangle2.translate(cp.depthPoint);
-                //     },
-                //     nocontact: function () {
-                //         // triangle1.setColor('red');
-                //     }
-                // });
 
                 prevX = e.pageX;
                 prevY = e.pageY;
