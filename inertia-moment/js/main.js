@@ -109,7 +109,7 @@
                 var t = vec2.cross(r, f);
                 var a = t / triangle.inertia;
 
-                triangle.angularAcc += a;
+                triangle.angularVelocity += a;
             }, false);
         }
 

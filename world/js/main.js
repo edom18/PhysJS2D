@@ -19,9 +19,9 @@
         var scene = new Phys2D.Scene();
         var renderer = new Phys2D.Renderer(cv);
 
-        var v1 = vec2(-100.0, 50.5);
-        var v2 = vec2(  0.0, -50.0);
-        var v3 = vec2( 100.0, 50.5);
+        var v1 = vec2(-100.0, 200.5);
+        var v2 = vec2(  0.0,   100.0);
+        var v3 = vec2( 100.0, 200.5);
 
         var v4 = vec2(-1005.0, 50.5);
         var v5 = vec2(1005.0, 65.5);
@@ -32,13 +32,14 @@
         var v9 = vec2( 25.0, 15.0);
 
         var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
-            angularVelocity: -1,
+            angularVelocity: -0.0,
             acceleration: vec2(0, -0.3),
             // velocity: vec2(0, -1),
             color: 'red',
             mass: 100
         });
-        triangle1.translate(vec2(0, 300));
+        triangle1.translate(vec2(0, 200));
+        triangle1.scale(vec2(0.3));
         // window.t = triangle1;
         scene.add(triangle1);
 
@@ -47,23 +48,37 @@
             color: 'blue',
             mass: 0
         });
+        triangle2.translate(vec2(0, -600));
         // triangle2.scale(vec2(0.1, 0.1));
         scene.add(triangle2);
 
         var triangle3 = new Phys2D.Triangle(v7, v8, v9, {
+            angularVelocity: 0.2,
             acceleration: vec2(0, -0.03),
             color: 'green',
             mass: 20
         });
-        triangle3.scale(vec2(2, 2));
+        // triangle3.scale(vec2(2, 2));
         triangle3.translate(vec2(100, 50));
         scene.add(triangle3);
+
+        var triangle4 = new Phys2D.Triangle(v7, v8, v9, {
+            angularVelocity: 0.3,
+            acceleration: vec2(0, -0.03),
+            color: 'yellow',
+            mass: 2000
+        });
+        // triangle3.scale(vec2(2, 2));
+        triangle4.translate(vec2(-100, 100));
+        scene.add(triangle4);
 
         var world = new Phys2D.World();
         world.add(triangle1);
         world.add(triangle2);
         world.add(triangle3);
+        world.add(triangle4);
 
+        //直交座標系のラインを引く
         var baseLine1 = new Phys2D.Line(vec2(-hw, 0), vec2(hw, 0), {
             color: '#aaa'
         });
@@ -98,17 +113,6 @@
 
             document.addEventListener('mouseup', function (e) {
                 dragging = false;
-
-                // var contact = new Phys2D.Contact(triangle1, triangle2, {
-                //     renderer: renderer,
-                //     scene: scene,
-                //     contact: function () {
-                //         triangle1.setColor('gray');
-                //     },
-                //     nocontact: function () {
-                //         triangle1.setColor('red');
-                //     }
-                // });
             }, false)
 
             document.addEventListener('mousemove', function (e) {
@@ -119,17 +123,6 @@
                 prevY = e.pageY - prevY;
 
                 triangle1.translate(vec2(prevX, -prevY));
-                // var contact = new Phys2D.Contact(triangle1, triangle2, {
-                //     renderer: renderer,
-                //     scene: scene,
-                //     contact: function (cp) {
-                //         // triangle1.setColor('gray');
-                //         triangle2.translate(cp.depthPoint);
-                //     },
-                //     nocontact: function () {
-                //         // triangle1.setColor('red');
-                //     }
-                // });
 
                 prevX = e.pageX;
                 prevY = e.pageY;
