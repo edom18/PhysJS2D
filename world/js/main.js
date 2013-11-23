@@ -27,19 +27,19 @@
         var v5 = vec2(1005.0, 65.5);
         var v6 = vec2( 80.0, -1005.0);
 
-        var v7 = vec2(-25.0, 50.5);
+        var v7 = vec2(-55.0, 50.5);
         var v8 = vec2(  0.0, 75.5);
         var v9 = vec2( 25.0, 15.0);
 
         var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
             angularVelocity: -0.0,
-            acceleration: vec2(0, -0.3),
+            acceleration: vec2(0, -0.03),
             // velocity: vec2(0, -1),
             color: 'red',
             mass: 100
         });
         triangle1.translate(vec2(0, 200));
-        triangle1.scale(vec2(0.3));
+        triangle1.scale(vec2(0.5));
         // window.t = triangle1;
         scene.add(triangle1);
 
@@ -54,7 +54,7 @@
 
         var triangle3 = new Phys2D.Triangle(v7, v8, v9, {
             angularVelocity: 0.2,
-            acceleration: vec2(0, -0.03),
+            acceleration: vec2(-0.01, -0.03),
             color: 'green',
             mass: 20
         });
@@ -63,13 +63,14 @@
         scene.add(triangle3);
 
         var triangle4 = new Phys2D.Triangle(v7, v8, v9, {
-            angularVelocity: 0.3,
-            acceleration: vec2(0, -0.03),
+            // angularVelocity: 0.3,
+            // acceleration: vec2(0, -0.03),
             color: 'yellow',
-            mass: 2000
+            mass: 0
         });
-        // triangle3.scale(vec2(2, 2));
-        triangle4.translate(vec2(-100, 100));
+        triangle4.translate(vec2(-200, -20));
+        triangle4.rotate(55);
+        triangle4.scale(vec2(3));
         scene.add(triangle4);
 
         var world = new Phys2D.World();
@@ -90,14 +91,14 @@
         scene.add(baseLine2);
         
         //レンダリングループ
-        function loop() {
+        (function loop() {
             requestAnimationFrame(loop);
             ctx.clearRect(0, 0, w, h);
             renderer.render(scene);
             world.step(16);
-        }
+        }());
 
-        document.addEventListener('click', loop, false);
+        // document.addEventListener('click', loop, false);
 
         //衝突判定
         {
