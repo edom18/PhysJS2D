@@ -20,7 +20,7 @@
         var renderer = new Phys2D.Renderer(cv);
 
         var v1 = vec2(-100.0, 200.5);
-        var v2 = vec2(  0.0,   100.0);
+        var v2 = vec2(  0.0,  300.0);
         var v3 = vec2( 100.0, 200.5);
 
         var v4 = vec2(-1005.0, 50.5);
@@ -32,13 +32,13 @@
         var v9 = vec2( 25.0, 15.0);
 
         var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
-            angularVelocity: -0.0,
+            // angularVelocity: -1,
             acceleration: vec2(0, -0.03),
             // velocity: vec2(0, -1),
             color: 'red',
             mass: 100
         });
-        triangle1.translate(vec2(0, 200));
+        triangle1.translate(vec2(0, 25));
         triangle1.scale(vec2(0.5));
         // window.t = triangle1;
         scene.add(triangle1);
@@ -48,7 +48,7 @@
             color: 'blue',
             mass: 0
         });
-        triangle2.translate(vec2(0, -600));
+        triangle2.translate(vec2(0, -350));
         // triangle2.scale(vec2(0.1, 0.1));
         scene.add(triangle2);
 
@@ -59,7 +59,7 @@
             mass: 20
         });
         // triangle3.scale(vec2(2, 2));
-        triangle3.translate(vec2(100, 50));
+        triangle3.translate(vec2(0, 200));
         scene.add(triangle3);
 
         var triangle4 = new Phys2D.Triangle(v7, v8, v9, {
@@ -68,9 +68,9 @@
             color: 'yellow',
             mass: 0
         });
-        triangle4.translate(vec2(-200, -20));
+        triangle4.translate(vec2(-200, 300));
         triangle4.rotate(55);
-        triangle4.scale(vec2(3));
+        triangle4.scale(vec2(10));
         scene.add(triangle4);
 
         var world = new Phys2D.World();
@@ -91,14 +91,18 @@
         scene.add(baseLine2);
         
         //レンダリングループ
-        (function loop() {
+        function loop() {
             requestAnimationFrame(loop);
             ctx.clearRect(0, 0, w, h);
             renderer.render(scene);
             world.step(16);
-        }());
+        }
 
-        // document.addEventListener('click', loop, false);
+        document.addEventListener('click', function () {
+            // for (var i = 0; i < 70; i++) {
+                loop();
+            // }
+        }, false);
 
         //衝突判定
         {
