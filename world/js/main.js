@@ -28,7 +28,7 @@
         var v3 = vec2( 100.0, 200.5);
 
         var v4 = vec2(-1005.0, 50.5);
-        var v5 = vec2(1005.0, 65.5);
+        var v5 = vec2(1005.0, 50.5);
         var v6 = vec2( 80.0, -1005.0);
 
         var v7 = vec2(-55.0, 50.5);
@@ -76,13 +76,13 @@
         triangle4.translate(vec2(-200, 300));
         triangle4.rotate(55);
         triangle4.scale(vec2(8));
-        scene.add(triangle4);
+        // scene.add(triangle4);
 
         var world = new Phys2D.World();
         world.add(triangle1);
         world.add(triangle2);
         // world.add(triangle3);
-        world.add(triangle4);
+        // world.add(triangle4);
 
         //直交座標系のラインを引く
         var baseLine1 = new Phys2D.Line(vec2(-hw, 0), vec2(hw, 0), {
