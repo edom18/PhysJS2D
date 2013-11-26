@@ -37,8 +37,8 @@
 
         var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
             angularVelocity: -1,
-            // acceleration: vec2(0, -0.03),
-            velocity: vec2(0, -10),
+            acceleration: vec2(0, -0.03),
+            // velocity: vec2(0, -10),
             color: 'red',
             mass: 100
         });
@@ -99,13 +99,13 @@
         var prevTime = +new Date();
         function loop() {
             var now = +new Date();
-            // requestAnimationFrame(loop);
+            requestAnimationFrame(loop);
             ctx.clearRect(0, 0, w, h);
             renderer.render(scene);
             world.step(now - prevTime);
 
             prevTime = now;
-            setTimeout(loop, 16);
+            // setTimeout(loop, 16);
         }
 
         document.addEventListener('click', function () {
