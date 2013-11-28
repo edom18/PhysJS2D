@@ -29,7 +29,7 @@
 
         var v4 = vec2(-1005.0, 50.5);
         var v5 = vec2(1005.0, 50.5);
-        var v6 = vec2( 80.0, -1005.0);
+        var v6 = vec2( 80.0, -205.0);
 
         var v7 = vec2(-55.0, 50.5);
         var v8 = vec2(  0.0, 75.5);
@@ -43,8 +43,8 @@
             mass: 100
         });
         triangle1.scale(vec2(0.5));
-        triangle1.rotate(-1);
-        triangle1.translate(vec2(-1.0001170635223389, -115.42633819580078));
+        triangle1.rotate(-15);
+        triangle1.translate(vec2(-1.0001170635223389, -127.42633819580078));
         // window.t = triangle1;
         scene.add(triangle1);
 
@@ -53,8 +53,8 @@
             color: 'blue',
             mass: 0
         });
-        triangle2.translate(vec2(0, -506));
-        // triangle2.scale(vec2(0.32));
+        triangle2.translate(vec2(0, -180));
+        triangle2.scale(vec2(0.32));
         scene.add(triangle2);
 
         var triangle3 = new Phys2D.Triangle(v7, v8, v9, {
@@ -102,17 +102,13 @@
             requestAnimationFrame(loop);
             ctx.clearRect(0, 0, w, h);
             renderer.render(scene);
-            world.step(now - prevTime);
+            // world.step(now - prevTime);
 
             prevTime = now;
             // setTimeout(loop, 16);
         }
 
-        document.addEventListener('click', function () {
-            // for (var i = 0; i < 70; i++) {
-                loop();
-            // }
-        }, false);
+        loop();
 
         //衝突判定
         {
@@ -127,7 +123,7 @@
             }, false)
 
             document.addEventListener('mouseup', function (e) {
-                dragging = false;
+                world.step(16);
             }, false)
 
             document.addEventListener('mousemove', function (e) {
