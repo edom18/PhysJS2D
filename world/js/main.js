@@ -35,14 +35,14 @@
         var v8 = vec2(  0.0, 75.5);
         var v9 = vec2( 25.0, 15.0);
 
-        var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
+var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
             angularVelocity: -1,
-            acceleration: vec2(0, -0.01),
+            acceleration: vec2(0, -0.98),
             // velocity: vec2(0, -10),
             color: 'red',
             mass: 100
         });
-        triangle1.translate(vec2(0, 250));
+        triangle1.translate(vec2(0, 50));
         triangle1.scale(vec2(0.5));
         triangle1.rotate(-1);
         // window.t = triangle1;
@@ -50,7 +50,7 @@
 
         var triangle2 = new Phys2D.Triangle(v4, v5, v6, {
             // angularVelocity: 0.1,
-            color: 'rgba(0, 0, 255, 0.5)',
+            color: 'blue',
             mass: 0
         });
         triangle2.translate(vec2(0, -506));
@@ -68,21 +68,21 @@
         scene.add(triangle3);
 
         var triangle4 = new Phys2D.Triangle(v7, v8, v9, {
-            // angularVelocity: 0.3,
-            // acceleration: vec2(0, -0.03),
+            angularVelocity: 0.3,
+            acceleration: vec2(0, -0.53),
             color: 'yellow',
-            mass: 0
+            mass: 10
         });
-        triangle4.translate(vec2(-200, 300));
+        triangle4.translate(vec2(-100, 300));
         triangle4.rotate(55);
-        triangle4.scale(vec2(8));
-        // scene.add(triangle4);
+        triangle4.scale(vec2(3));
+        scene.add(triangle4);
 
         var world = new Phys2D.World();
         world.add(triangle1);
         world.add(triangle2);
         world.add(triangle3);
-        // world.add(triangle4);
+        world.add(triangle4);
 
         //直交座標系のラインを引く
         var baseLine1 = new Phys2D.Line(vec2(-hw, 0), vec2(hw, 0), {
