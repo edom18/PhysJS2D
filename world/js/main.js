@@ -37,12 +37,12 @@
 
         var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
             angularVelocity: -1,
-            acceleration: vec2(0, -0.03),
+            acceleration: vec2(0, -0.01),
             // velocity: vec2(0, -10),
             color: 'red',
             mass: 100
         });
-        triangle1.translate(vec2(0, 25));
+        triangle1.translate(vec2(0, 250));
         triangle1.scale(vec2(0.5));
         triangle1.rotate(-1);
         // window.t = triangle1;
@@ -50,7 +50,7 @@
 
         var triangle2 = new Phys2D.Triangle(v4, v5, v6, {
             // angularVelocity: 0.1,
-            color: 'blue',
+            color: 'rgba(0, 0, 255, 0.5)',
             mass: 0
         });
         triangle2.translate(vec2(0, -506));
@@ -59,12 +59,12 @@
 
         var triangle3 = new Phys2D.Triangle(v7, v8, v9, {
             angularVelocity: 0.5,
-            acceleration: vec2(0, -0.03),
+            acceleration: vec2(0, -0.08),
             color: 'green',
             mass: 20
         });
         // triangle3.scale(vec2(2, 2));
-        triangle3.translate(vec2(0, 200));
+        triangle3.translate(vec2(10, 200));
         scene.add(triangle3);
 
         var triangle4 = new Phys2D.Triangle(v7, v8, v9, {
@@ -80,8 +80,8 @@
 
         var world = new Phys2D.World();
         world.add(triangle1);
-        world.add(triangle3);
         world.add(triangle2);
+        world.add(triangle3);
         // world.add(triangle4);
 
         //直交座標系のラインを引く
@@ -99,13 +99,13 @@
         var prevTime = +new Date();
         function loop() {
             var now = +new Date();
-            requestAnimationFrame(loop);
+            // requestAnimationFrame(loop);
             ctx.clearRect(0, 0, w, h);
             renderer.render(scene);
             world.step(now - prevTime);
 
             prevTime = now;
-            // setTimeout(loop, 16);
+            setTimeout(loop, 16);
         }
 
         document.addEventListener('click', function () {
