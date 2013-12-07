@@ -23,17 +23,17 @@
         window.scene = scene;
         window.renderer = renderer;
 
-        var v1 = vec2(-100.0, 200.5);
-        var v2 = vec2(  0.0,  300.0);
-        var v3 = vec2( 100.0, 200.5);
+        var v1 = vec2(-1.0, 2.5);
+        var v2 = vec2(  0.0,  3.0);
+        var v3 = vec2( 1.0, 2.5);
 
-        var v4 = vec2(-1005.0, 50.5);
-        var v5 = vec2(1005.0, 50.5);
-        var v6 = vec2( 80.0, -1005.0);
+        var v4 = vec2(-150.0, 50.5);
+        var v5 = vec2(150.0, 50.5);
+        var v6 = vec2( 80, -150.0);
 
-        var v7 = vec2(-55.0, 50.5);
-        var v8 = vec2(  0.0, 75.5);
-        var v9 = vec2( 25.0, 15.0);
+        var v7 = vec2(-1.5, 1.55);
+        var v8 = vec2(  0.0, 2.155);
+        var v9 = vec2( 0.65, 0.45);
 
         var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
             angularVelocity: -1,
@@ -42,9 +42,9 @@
             color: 'red',
             mass: 100
         });
-        triangle1.translate(vec2(0, 50));
-        triangle1.scale(vec2(0.5));
-        triangle1.rotate(-1);
+        triangle1.translate(vec2(0, 10));
+        // triangle1.scale(vec2(0.5));
+        // triangle1.rotate(-1);
         // window.t = triangle1;
         scene.add(triangle1);
 
@@ -53,29 +53,29 @@
             color: 'blue',
             mass: 0
         });
-        triangle2.translate(vec2(0, -506));
+        triangle2.translate(vec2(0, -70));
         // triangle2.scale(vec2(0.32));
         scene.add(triangle2);
 
         var triangle3 = new Phys2D.Triangle(v7, v8, v9, {
-            angularVelocity: 0.5,
+            angularVelocity: 50,
             acceleration: vec2(0, -9.8),
             color: 'green',
             mass: 20
         });
-        // triangle3.scale(vec2(2, 2));
-        triangle3.translate(vec2(10, 200));
+        triangle3.scale(vec2(0.7));
+        triangle3.translate(vec2(0, 20));
         scene.add(triangle3);
 
         var triangle4 = new Phys2D.Triangle(v7, v8, v9, {
-            angularVelocity: 0.3,
+            angularVelocity: 30,
             acceleration: vec2(0, -9.8),
             color: 'yellow',
-            mass: 10
+            mass: 50
         });
-        triangle4.translate(vec2(-100, 300));
-        triangle4.rotate(55);
-        triangle4.scale(vec2(3));
+        // triangle4.translate(vec2(-100, 0));
+        // triangle4.rotate(55);
+        triangle4.scale(vec2(0.1));
         scene.add(triangle4);
 
         var world = new Phys2D.World();
@@ -102,7 +102,6 @@
             renderer.render(scene);
             world.step(16);
         }
-        loop();
 
         document.addEventListener('click', function () {
             // for (var i = 0; i < 70; i++) {
