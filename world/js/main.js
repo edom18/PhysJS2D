@@ -35,9 +35,9 @@
         var v8 = vec2(  0.0, 75.5);
         var v9 = vec2( 25.0, 15.0);
 
-var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
+        var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
             angularVelocity: -1,
-            acceleration: vec2(0, -0.98),
+            acceleration: vec2(0, -9.8),
             // velocity: vec2(0, -10),
             color: 'red',
             mass: 100
@@ -59,7 +59,7 @@ var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
 
         var triangle3 = new Phys2D.Triangle(v7, v8, v9, {
             angularVelocity: 0.5,
-            acceleration: vec2(0, -0.08),
+            acceleration: vec2(0, -9.8),
             color: 'green',
             mass: 20
         });
@@ -69,7 +69,7 @@ var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
 
         var triangle4 = new Phys2D.Triangle(v7, v8, v9, {
             angularVelocity: 0.3,
-            acceleration: vec2(0, -0.53),
+            acceleration: vec2(0, -9.8),
             color: 'yellow',
             mass: 10
         });
@@ -96,17 +96,13 @@ var triangle1 = new Phys2D.Triangle(v1, v2, v3, {
         scene.add(baseLine2);
         
         //レンダリングループ
-        var prevTime = +new Date();
         function loop() {
-            var now = +new Date();
-            // requestAnimationFrame(loop);
+            requestAnimationFrame(loop);
             ctx.clearRect(0, 0, w, h);
             renderer.render(scene);
-            world.step(now - prevTime);
-
-            prevTime = now;
-            setTimeout(loop, 16);
+            world.step(16);
         }
+        loop();
 
         document.addEventListener('click', function () {
             // for (var i = 0; i < 70; i++) {
