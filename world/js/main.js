@@ -97,46 +97,47 @@
         
         //レンダリングループ
         function loop() {
+            var timeStep = 0.016;
             requestAnimationFrame(loop);
             ctx.clearRect(0, 0, w, h);
             renderer.render(scene);
-            world.step(16);
+            world.step(timeStep);
         }
 
-        document.addEventListener('click', function () {
+        // document.addEventListener('click', function () {
             // for (var i = 0; i < 70; i++) {
                 loop();
             // }
-        }, false);
+        // }, false);
 
         //衝突判定
-        {
-            var prevX = 0;
-            var prevY = 0;
-            var dragging = false;
+        // {
+        //     var prevX = 0;
+        //     var prevY = 0;
+        //     var dragging = false;
 
-            cv.addEventListener('mousedown', function (e) {
-                prevX = e.pageX;
-                prevY = e.pageY;
-                dragging = true;
-            }, false)
+        //     cv.addEventListener('mousedown', function (e) {
+        //         prevX = e.pageX;
+        //         prevY = e.pageY;
+        //         dragging = true;
+        //     }, false)
 
-            document.addEventListener('mouseup', function (e) {
-                dragging = false;
-            }, false)
+        //     document.addEventListener('mouseup', function (e) {
+        //         dragging = false;
+        //     }, false)
 
-            document.addEventListener('mousemove', function (e) {
-                if (!dragging) {
-                    return;
-                }
-                prevX = e.pageX - prevX;
-                prevY = e.pageY - prevY;
+        //     document.addEventListener('mousemove', function (e) {
+        //         if (!dragging) {
+        //             return;
+        //         }
+        //         prevX = e.pageX - prevX;
+        //         prevY = e.pageY - prevY;
 
-                triangle1.translate(vec2(prevX, -prevY));
+        //         triangle1.translate(vec2(prevX, -prevY));
 
-                prevX = e.pageX;
-                prevY = e.pageY;
-            }, false)
-        }
+        //         prevX = e.pageX;
+        //         prevY = e.pageY;
+        //     }, false)
+        // }
     }, false);
 }());
