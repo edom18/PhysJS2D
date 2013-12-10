@@ -27,9 +27,9 @@
         var v2 = vec2(  0.0,  3.0);
         var v3 = vec2( 1.0, 2.5);
 
-        var v4 = vec2(-150.0, 50.5);
-        var v5 = vec2(150.0, 50.5);
-        var v6 = vec2( 80, -150.0);
+        var v4 = vec2(-150.0,   50.0);
+        var v5 = vec2( 150.0,   50.0);
+        var v6 = vec2(   0.0, -150.0);
 
         var v7 = vec2(-1.5, 1.55);
         var v8 = vec2(  0.0, 2.155);
@@ -46,7 +46,7 @@
         // triangle1.scale(vec2(0.5));
         // triangle1.rotate(-1);
         // window.t = triangle1;
-        scene.add(triangle1);
+        // scene.add(triangle1);
 
         var triangle2 = new Phys2D.Triangle(v4, v5, v6, {
             // angularVelocity: 0.1,
@@ -55,7 +55,7 @@
         });
         triangle2.translate(vec2(0, -70));
         // triangle2.scale(vec2(0.32));
-        scene.add(triangle2);
+        // scene.add(triangle2);
 
         var triangle3 = new Phys2D.Triangle(v7, v8, v9, {
             angularVelocity: 50,
@@ -65,7 +65,7 @@
         });
         triangle3.scale(vec2(0.7));
         triangle3.translate(vec2(0, 20));
-        scene.add(triangle3);
+        // scene.add(triangle3);
 
         var triangle4 = new Phys2D.Triangle(v7, v8, v9, {
             angularVelocity: 30,
@@ -76,13 +76,31 @@
         // triangle4.translate(vec2(-100, 0));
         // triangle4.rotate(55);
         triangle4.scale(vec2(0.1));
-        scene.add(triangle4);
+        // scene.add(triangle4);
+        
+        var blueShape = new Phys2D.TriangleShape(v4, v5, v6);
+        var blueBody = new Phys2D.RigidBody(0, blueShape, {
+            color: 'blue'
+        });
+        blueBody.scale(vec2(0.1));
+        blueBody.translate(vec2(0, -10));
+        scene.add(blueBody);
+
+        var greenShape = new Phys2D.TriangleShape(v7, v8, v9);
+        var greenBody = new Phys2D.RigidBody(20, greenShape, {
+            // angularVelocity: 50,
+            acceleration: vec2(0, -9.8),
+            color: 'green'
+        });
+        scene.add(greenBody);
 
         var world = new Phys2D.World();
-        world.add(triangle1);
-        world.add(triangle2);
-        world.add(triangle3);
-        world.add(triangle4);
+        world.add(blueBody);
+        world.add(greenBody);
+        // world.add(triangle1);
+        // world.add(triangle2);
+        // world.add(triangle3);
+        // world.add(triangle4);
 
         //直交座標系のラインを引く
         var baseLine1 = new Phys2D.Line(vec2(-hw, 0), vec2(hw, 0), {
