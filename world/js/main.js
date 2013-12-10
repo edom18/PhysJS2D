@@ -63,7 +63,7 @@
 
         var gravity = vec2(0, -9.8);
         var world = new Phys2D.World(gravity);
-        // world.add(redBody);
+        world.add(redBody);
         world.add(blueBody);
         world.add(greenBody);
         world.add(yellowBody);
