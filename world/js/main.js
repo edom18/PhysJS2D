@@ -43,13 +43,12 @@
         blueBody.translate(vec2(0, -8.5));
         scene.add(blueBody);
 
-        var greenShape = new Phys2D.BoxShape(1, 1);
-        var greenBody = new Phys2D.RigidBody(0, greenShape, {
+        var greenShape = new Phys2D.CircleShape(0.5, 0.5);
+        var greenBody = new Phys2D.RigidBody(5, greenShape, {
             color: 'green'
         });
         scene.add(greenBody);
 
-        
         var v4 = vec2(-1.0, 2.5);
         var v5 = vec2(  0.0,  3.0);
         var v6 = vec2( 1.0, 2.5);
@@ -58,15 +57,15 @@
         var yellowBody = new Phys2D.RigidBody(5, yellowShape, {
             color: 'yellow'
         });
-        yellowBody.translate(vec2(0, 1));
+        yellowBody.translate(vec2(0.0, 2));
         scene.add(yellowBody);
 
         var gravity = vec2(0, -9.8);
         var world = new Phys2D.World(gravity);
-        world.add(redBody);
+        // world.add(redBody);
         world.add(blueBody);
         world.add(greenBody);
-        world.add(yellowBody);
+        // world.add(yellowBody);
 
         //直交座標系のラインを引く
         var baseLine1 = new Phys2D.Line(vec2(-hw, 0), vec2(hw, 0), {
