@@ -46,11 +46,17 @@
 
         var greenShape = new Phys2D.CircleShape(0.5, 0.5);
         var greenBody = new Phys2D.RigidBody(5, greenShape, {
-            // angularVelocity: 10,
             color: 'green'
         });
         greenBody.translate(vec2(-1, 0));
         scene.add(greenBody);
+
+        var grayShape = new Phys2D.CircleShape(0.3, 0.3);
+        var grayBody = new Phys2D.RigidBody(5, grayShape, {
+            color: 'gray'
+        });
+        grayBody.translate(vec2(-1, 1));
+        scene.add(grayBody);
 
         var v4 = vec2(-1.0, 2.5);
         var v5 = vec2(  0.0,  3.0);
@@ -68,6 +74,7 @@
         world.add(redBody);
         world.add(blueBody);
         world.add(greenBody);
+        world.add(grayBody);
         world.add(yellowBody);
 
         //直交座標系のラインを引く
@@ -89,8 +96,8 @@
             renderer.render(scene);
             world.step(timeStep);
         }
-
-        document.addEventListener('click', loop, false);
+        loop();
+        // document.addEventListener('click', loop, false);
         
     }, false);
 }());
