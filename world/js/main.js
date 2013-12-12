@@ -31,25 +31,27 @@
         redBody.translate(vec2(0.5, 5));
         scene.add(redBody);
 
-        var v1 = vec2(-150.0,   50.0);
-        var v2 = vec2( 150.0,   50.0);
-        var v3 = vec2(   0.0, -150.0);
+        var v1 = vec2(-15.0,   5.0);
+        var v2 = vec2( 15.0,   5.0);
+        var v3 = vec2(  0.0, -15.0);
         
         var blueShape = new Phys2D.TriangleShape(v1, v2, v3);
         var blueBody = new Phys2D.RigidBody(0, blueShape, {
             color: 'blue'
         });
-        blueBody.scale(vec2(0.1));
+        // blueBody.scale(vec2(0.1));
+        // blueBody.translate(vec2(0, -6.65));
         blueBody.translate(vec2(0, -8.5));
         scene.add(blueBody);
 
-        var greenShape = new Phys2D.BoxShape(1, 1);
-        var greenBody = new Phys2D.RigidBody(0, greenShape, {
+        var greenShape = new Phys2D.CircleShape(0.5, 0.5);
+        var greenBody = new Phys2D.RigidBody(5, greenShape, {
+            // angularVelocity: 10,
             color: 'green'
         });
+        greenBody.translate(vec2(-1, 0));
         scene.add(greenBody);
 
-        
         var v4 = vec2(-1.0, 2.5);
         var v5 = vec2(  0.0,  3.0);
         var v6 = vec2( 1.0, 2.5);
@@ -58,7 +60,7 @@
         var yellowBody = new Phys2D.RigidBody(5, yellowShape, {
             color: 'yellow'
         });
-        yellowBody.translate(vec2(0, 1));
+        yellowBody.translate(vec2(0.0, 2));
         scene.add(yellowBody);
 
         var gravity = vec2(0, -9.8);
@@ -80,13 +82,15 @@
         scene.add(baseLine2);
         
         //レンダリングループ
-        (function loop() {
+        function loop() {
             var timeStep = 0.016;
             requestAnimationFrame(loop);
             ctx.clearRect(0, 0, w, h);
             renderer.render(scene);
             world.step(timeStep);
-        }());
+        }
+
+        document.addEventListener('click', loop, false);
         
     }, false);
 }());
