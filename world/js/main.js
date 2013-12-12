@@ -31,22 +31,25 @@
         redBody.translate(vec2(0.5, 5));
         scene.add(redBody);
 
-        var v1 = vec2(-150.0,   50.0);
-        var v2 = vec2( 150.0,   50.0);
-        var v3 = vec2(   0.0, -150.0);
+        var v1 = vec2(-15.0,   5.0);
+        var v2 = vec2( 15.0,   5.0);
+        var v3 = vec2(  0.0, -15.0);
         
         var blueShape = new Phys2D.TriangleShape(v1, v2, v3);
         var blueBody = new Phys2D.RigidBody(0, blueShape, {
             color: 'blue'
         });
-        blueBody.scale(vec2(0.1));
+        // blueBody.scale(vec2(0.1));
+        // blueBody.translate(vec2(0, -6.65));
         blueBody.translate(vec2(0, -8.5));
         scene.add(blueBody);
 
         var greenShape = new Phys2D.CircleShape(0.5, 0.5);
         var greenBody = new Phys2D.RigidBody(5, greenShape, {
+            // angularVelocity: 10,
             color: 'green'
         });
+        greenBody.translate(vec2(-1, 0));
         scene.add(greenBody);
 
         var v4 = vec2(-1.0, 2.5);
@@ -62,10 +65,10 @@
 
         var gravity = vec2(0, -9.8);
         var world = new Phys2D.World(gravity);
-        // world.add(redBody);
+        world.add(redBody);
         world.add(blueBody);
         world.add(greenBody);
-        // world.add(yellowBody);
+        world.add(yellowBody);
 
         //直交座標系のラインを引く
         var baseLine1 = new Phys2D.Line(vec2(-hw, 0), vec2(hw, 0), {
@@ -79,13 +82,15 @@
         scene.add(baseLine2);
         
         //レンダリングループ
-        (function loop() {
+        function loop() {
             var timeStep = 0.016;
             requestAnimationFrame(loop);
             ctx.clearRect(0, 0, w, h);
             renderer.render(scene);
             world.step(timeStep);
-        }());
+        }
+
+        document.addEventListener('click', loop, false);
         
     }, false);
 }());
