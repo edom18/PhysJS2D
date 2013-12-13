@@ -46,6 +46,7 @@
 
         var greenShape = new Phys2D.CircleShape(0.5, 0.5);
         var greenBody = new Phys2D.RigidBody(5, greenShape, {
+            restitution: 1,
             color: 'green'
         });
         greenBody.translate(vec2(-1, 0));
