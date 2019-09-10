@@ -1,0 +1,203 @@
+<html><head>
+<meta charset="UTF-8"><title>簡易2D物理エンジンを作る</title>
+<meta name="Description" content="jsdo.it - share JavaScript, HTML5 and CSS - ">
+<meta name="Keywords" content="JavaScript,HTML5,CSS">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+
+<style type="text/css">html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline; }
+
+html {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle; }
+
+q, blockquote {
+  quotes: none; }
+  q:before, q:after, blockquote:before, blockquote:after {
+    content: "";
+    content: none; }
+
+a img {
+  border: none; }
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block; }
+
+#cv {
+  background-color: #111; }
+
+.mes {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  right: 10px;
+  border: solid 1px #999999;
+  padding: 10px;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.5; }
+</style></head>
+<body>
+<canvas id="cv" width="1680" height="915"></canvas>
+
+<script src="http://jsrun.it/assets/4/A/h/q/4AhqE"></script>
+<script src="http://edom18.github.io/MathJS/src/util.js"></script>
+<script src="http://edom18.github.io/MathJS/src/core.js"></script>
+<script src="http://edom18.github.io/MathJS/src/vec2.js"></script>
+<script src="http://edom18.github.io/MathJS/src/vec3.js"></script>
+<script src="http://edom18.github.io/MathJS/src/mat3.js"></script>
+<script src="http://edom18.github.io/MathJS/src/mat4.js"></script>
+
+<script src="http://edom18.github.io/PhysJS2D/lib/base.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/Settings.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/Scene.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/Renderer.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/Object2D.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/Line.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/Point.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/Shape.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/TriangleShape.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/BoxShape.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/CircleShape.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/Collider.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/RigidBody.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/Constraint.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/ContactPoint.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/Contact.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/SolverBody.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/Solver.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/Pair.js"></script>
+<script src="http://edom18.github.io/PhysJS2D/lib/World.js"></script>
+<script type="text/javascript">
+(function () {
+
+    'use strict';
+
+    var w = window.innerWidth,
+        h = window.innerHeight,
+        hw = w / 2,
+        hh = h / 2;
+
+    var cv, ctx;
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        cv = document.querySelector('#cv');
+        cv.width  = w;
+        cv.height = h;
+        ctx = cv.getContext('2d');
+
+        var scene = new Phys2D.Scene();
+        var renderer = new Phys2D.Renderer(cv);
+
+        //for debug.
+        window.scene = scene;
+        window.renderer = renderer;
+        
+        var redShape = new Phys2D.BoxShape(2, 2);
+        var redBody = new Phys2D.RigidBody(20, redShape, {
+            // angularVelocity: 500,
+            color: 'red'
+        });
+        redBody.translate(vec2(0.5, 5));
+        scene.add(redBody);
+
+        var v1 = vec2(-150.0,   50.0);
+        var v2 = vec2( 150.0,   50.0);
+        var v3 = vec2(   0.0, -150.0);
+        
+        var blueShape = new Phys2D.TriangleShape(v1, v2, v3);
+        var blueBody = new Phys2D.RigidBody(0, blueShape, {
+            color: 'blue'
+        });
+        blueBody.scale(vec2(0.1));
+        blueBody.translate(vec2(0, -8.5));
+        scene.add(blueBody);
+
+        var greenShape = new Phys2D.CircleShape(0.5, 0.5);
+        var greenBody = new Phys2D.RigidBody(5, greenShape, {
+            color: 'green'
+        });
+        greenBody.translate(vec2(-1, 0));
+        scene.add(greenBody);
+
+        var grayShape = new Phys2D.CircleShape(0.3, 0.3);
+        var grayBody = new Phys2D.RigidBody(5, grayShape, {
+            color: 'gray'
+        });
+        grayBody.translate(vec2(-1, 1));
+        scene.add(grayBody);
+
+        var v4 = vec2(-1.0, 2.5);
+        var v5 = vec2(  0.0,  3.0);
+        var v6 = vec2( 1.0, 2.5);
+        
+        var yellowShape = new Phys2D.TriangleShape(v4, v5, v6);
+        var yellowBody = new Phys2D.RigidBody(5, yellowShape, {
+            color: 'yellow'
+        });
+        yellowBody.translate(vec2(0, 1));
+        scene.add(yellowBody);
+
+        var gravity = vec2(0, -9.8);
+        var world = new Phys2D.World(gravity);
+        world.add(redBody);
+        world.add(blueBody);
+        world.add(grayBody);
+        world.add(greenBody);
+        world.add(yellowBody);
+
+        //直交座標系のラインを引く
+        var baseLine1 = new Phys2D.Line(vec2(-hw, 0), vec2(hw, 0), {
+            color: '#aaa'
+        });
+        scene.add(baseLine1);
+
+        var baseLine2 = new Phys2D.Line(vec2(0, hh), vec2(0, -hh), {
+            color: '#aaa'
+        });
+        scene.add(baseLine2);
+        
+        //レンダリングループ
+        (function loop() {
+            var timeStep = 0.016;
+            requestAnimationFrame(loop);
+            ctx.clearRect(0, 0, w, h);
+            renderer.render(scene);
+            world.step(timeStep);
+        }());
+        
+    }, false);
+}());
+</script>
+
+
+</body></html>
