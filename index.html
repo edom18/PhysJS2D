@@ -124,7 +124,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
         
         var redShape = new Phys2D.BoxShape(2, 2);
         var redBody = new Phys2D.RigidBody(20, redShape, {
-            // angularVelocity: 500,
+            angularVelocity: Date.now() % 500,
             color: 'red'
         });
         redBody.translate(vec2(0.5, 5));
@@ -162,6 +162,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
         
         var yellowShape = new Phys2D.TriangleShape(v4, v5, v6);
         var yellowBody = new Phys2D.RigidBody(5, yellowShape, {
+            angularVelocity: Date.now() % 1500,
             color: 'yellow'
         });
         yellowBody.translate(vec2(0, 1));
