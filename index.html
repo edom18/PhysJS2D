@@ -117,7 +117,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
         var scene = new Phys2D.Scene();
         var renderer = new Phys2D.Renderer(cv);
 
-        //for debug.
+        // for debug.
         window.scene = scene;
         window.renderer = renderer;
         
@@ -175,7 +175,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
         world.add(greenBody);
         world.add(yellowBody);
 
-        //直交座標系のラインを引く
+        // 直交座標系のラインを引く
         var baseLine1 = new Phys2D.Line(vec2(-hw, 0), vec2(hw, 0), {
             color: '#aaa'
         });
@@ -186,7 +186,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
         });
         scene.add(baseLine2);
         
-        //レンダリングループ
+        // レンダリングループ
         (function loop() {
             var timeStep = 0.016;
             requestAnimationFrame(loop);
@@ -198,6 +198,5 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     }, false);
 }());
 </script>
-
 
 </body></html>
